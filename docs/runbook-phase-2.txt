@@ -1,0 +1,26 @@
+# Runbook – Phase 2: Multi-Site & Replication
+
+## Step 1: Promote ADC-SRV01
+- Join server to domain
+- Install AD DS role
+- Promote as Additional Domain Controller
+
+## Step 2: Configure AD Sites
+- Create SiteA and SiteB
+- Map subnets to sites
+- Move DCs into correct sites
+
+## Step 3: Configure DHCP Failover
+- Create failover relationship
+- Set load balance mode
+- Validate failover status
+
+## Step 4: Replication Validation
+- repadmin /showrepl
+- repadmin /replsummary
+- Check Event Viewer
+
+## Step 5: Final Health Checks
+- dcdiag
+- nslookup
+- DHCP lease distribution
