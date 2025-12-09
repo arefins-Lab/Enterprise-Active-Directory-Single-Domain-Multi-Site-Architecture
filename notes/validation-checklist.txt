@@ -1,0 +1,46 @@
+===============================================================
+VALIDATION CHECKLIST – Enterprise AD Multi‑Site Architecture
+Domain: mylab.test
+===============================================================
+
+[1] Active Directory
+    - Forest created successfully
+    - Domain functional level verified
+    - SYSVOL replication healthy
+    - AD Sites & Services configured
+    - Replication between DC-SRV01 ↔ ADC-SRV01 verified
+
+[2] DNS
+    - Primary zone: mylab.test created
+    - Zone replication scope: Forest
+    - Forward lookup zone resolving correctly
+    - Reverse lookup zone optional but recommended
+    - nslookup test passed from all clients
+
+[3] DHCP
+    - DHCP scopes created for LAN01, LAN02, LAN03
+    - Exclusion ranges configured
+    - DHCP options (003, 006, 015) applied
+    - Failover partnership configured (Load Balance)
+    - Leases verified using Get-DhcpServerv4Lease
+
+[4] Networking
+    - pfSense LAN gateways reachable
+    - VLAN/subnet routing functional
+    - Clients receiving correct IPs
+    - Default gateway reachable from all subnets
+
+[5] Domain Join
+    - Workstations 01–04 successfully joined
+    - Desktops 01–02 successfully joined
+    - GPO application verified
+
+[6] Replication
+    - repadmin /showrepl shows no errors
+    - Event Viewer: Directory Service clean
+    - Intersite replication schedule default
+
+[7] Final Checks
+    - Time sync correct across all servers
+    - DNS suffix applied automatically
+    - AD health: dcdiag passed
