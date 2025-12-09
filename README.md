@@ -1,120 +1,87 @@
 Enterprise Active Directory – Single Domain Multi‑Site Architecture
-Project Overview:
-This project simulates an enterprise-scale Active Directory deployment across multiple sites using Hyper-V virtualisation. 
-The objectives were:
 
-Centralised identity management with a single domain
+This project showcases a complete enterprise‑grade Active Directory infrastructure designed and deployed from scratch, featuring a single domain operating across multiple sites with full redundancy, routing, and service integration. The environment replicates real‑world production architecture, including multi‑site replication, DNS/DHCP services, and pfSense‑based network segmentation.
 
-Multi‑site replication for redundancy and scalability
+Project Overview
+A fully functional Active Directory environment built with:
 
-Integrated DNS and DHCP services for seamless client connectivity
+Multi‑site AD replication (Building - A ↔ Building - B)
+AD‑Integrated DNS with forest‑wide replication
+DHCP scopes across three subnets
+DHCP failover (Load Balance mode)
+pfSense routing and gateway segmentation
+Additional Domain Controller for redundancy
+Complete validation and troubleshooting workflow
+All components were deployed manually without templates — designed from first principles to reflect real enterprise architecture.
 
-Future‑ready design with options for RODCs, IPAM, and hybrid cloud integration
+Network & Infrastructure Design
+Subnets
+192.168.1.0/24 – Building - A
+192.168.2.0/24 – Building - A
+192.168.3.0/24 – Building - B
 
-The lab was built entirely on Hyper‑V, enabling multiple servers and sites to be deployed virtually, without physical hardware.
+Domain Controllers
+DC‑SRV01 – 192.168.1.210 (Primary DC + DNS)
+ADC‑SRV01 – 192.168.3.210 (Additional DC + DNS)
 
+DHCP Servers
+DHCP‑SRV01 – 192.168.1.215
+DHCP‑SRV02 – 192.168.1.220
+Mode: Failover (Load Balance)
 
-Project Constraints & Requirements:
-Virtualisation: Hyper‑V is used to simulate multiple sites and servers
+pfSense Gateways
+192.168.1.1 – LAN01
+192.168.2.1 – LAN02
+192.168.3.1 – LAN03
 
-Domain Design: Single forest, single domain, multiple sites
+Key Features
+Single domain across multiple sites
+AD Sites & Services with subnet mapping
+Redundant DNS and domain services
+DHCP failover for high availability
+pfSense‑based routing between networks
+Full documentation, diagrams, scripts, and configs
 
-Replication: Configured for redundancy and site awareness
+Validation Performed
+repadmin /showrepl – AD replication health
+nslookup – DNS resolution
+Get-DhcpServerv4Lease – DHCP lease verification
+Domain join tests across all subnets
+Gateway and inter‑site connectivity tests
 
-Networking: DHCP and DNS integrated with AD DS
+Repository Structure
+/docs
+    architecture-and-ip-plan.txt
+    runbook-phase-1.txt
+    runbook-phase-2.txt
+    services-overview.txt
 
-Scalability: Architecture designed to expand with additional sites or cloud integration
+/configs
+    dhcp-scope-plan.txt
+    dns-zone-plan.txt
+    pfsense-config.xml (coming soon)
 
+/scripts
+    *.ps1 – PowerShell automation scripts
 
-Architecture:
-Site A: Primary Domain Controller (DC1), DHCP, DNS
+/notes
+    troubleshooting.txt
+    validation-checklist.txt
+    architecture-decisions.txt
 
-Site B: Secondary Domain Controller (DC2), replication partner
+/diagrams
+    enterprise-ad-multi-site-architecture.png
 
-Hyper‑V Hosts: Virtualised servers simulating enterprise topology
+Purpose
+This project demonstrates practical, hands‑on experience with:
+Enterprise identity infrastructure
+Multi‑site network design
+Redundancy and high availability
+Documentation and automation discipline
+Real‑world troubleshooting workflows
 
-Clients: Windows PCs joined to the domain for validation
+Final Observation
+This lab architecture and network diagram were designed entirely from scratch without using any templates. Every component of the Active Directory, networking, and multi‑site layout reflects a self‑designed, first‑principles architecture tailored specifically for this implementation.
 
+Original Design: No templates used; the full architecture and diagram are self‑designed from scratch.
 
-Configuration Steps:
-Active Directory Installation
-
-powershell:
-Install-ADDSForest -DomainName "corp.local" -InstallDns
-DNS Zone Creation
-
-powershell:
-Add-DnsServerPrimaryZone -Name "corp.local" -ReplicationScope Forest
-DHCP Scope Setup
-
-powershell:
-Add-DhcpServerv4Scope -Name "CorpScope" -StartRange 192.168.10.100 -EndRange 192.168.10.200 -SubnetMask 255.255.255.0
-Site/Subnet Definition
-
-powershell:
-New-ADReplicationSite -Name "SiteA"
-New-ADReplicationSite -Name "SiteB"
-New-ADReplicationSubnet -Name "192.168.10.0/24" -Site "SiteA"
-Replication Validation
-
-powershell:
-repadmin /showrepl
-Get-ADReplicationSite
-
-Validation:
-Domain Join: Clients successfully joined the corporate network. local
-
-Replication Check: Verified with repadmin /showrepl
-
-DNS Resolution: Tested with nslookup
-
-DHCP Leases: Confirmed with Get-DhcpServerv4Lease
-
-PowerShell Command Library:
-powershell:
-# Install Active Directory Domain Services
-Install-WindowsFeature AD-Domain-Services
-
-# Create new forest and domain
-Install-ADDSForest -DomainName "corp.local" -InstallDns
-
-# Add additional domain controller
-Install-ADDSDomainController -DomainName "corp.local"
-
-# Configure DNS zone
-Add-DnsServerPrimaryZone -Name "corp.local" -ReplicationScope Forest
-
-# Add DHCP scope
-Add-DhcpServerv4Scope -Name "CorpScope" -StartRange 192.168.10.100 -EndRange 192.168.10.200 -SubnetMask 255.255.255.0
-
-# Define replication sites
-New-ADReplicationSite -Name "SiteA"
-New-ADReplicationSite -Name "SiteB"
-
-# Define subnets for sites
-New-ADReplicationSubnet -Name "192.168.10.0/24" -Site "SiteA"
-New-ADReplicationSubnet -Name "192.168.20.0/24" -Site "SiteB"
-
-# Validate replication
-repadmin /showrepl
-Get-ADReplicationSite
-
-Future Enhancements:
-Read‑Only Domain Controllers (RODCs) for branch offices
-
-IP Address Management (IPAM) integration
-
-Hybrid Cloud: Extend AD DS to Azure AD for cloud identity sync
-
-Advanced Monitoring: Implement AD replication health checks
-
-✅ Result
-A multi‑site Active Directory environment built on Hyper‑V, demonstrating:
-
-Centralised identity management
-
-Redundant replication across sites
-
-Integrated DNS/DHCP services
-
-Scalable enterprise‑style design
