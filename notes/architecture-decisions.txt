@@ -1,0 +1,38 @@
+===============================================================
+ARCHITECTURE DECISIONS – Enterprise AD Multi‑Site Architecture
+Domain: mylab.test
+===============================================================
+
+[1] Domain Name
+    - Chosen: mylab.test
+    - Reason: Non-routable, lab-safe, avoids .local issues
+
+[2] Multi-Site Design
+    - Building A = SiteA
+    - Building B = SiteB
+    - Reason: Clear separation for replication topology
+
+[3] Subnet Allocation
+    - 192.168.1.0/24 → SiteA (Servers + Clients)
+    - 192.168.2.0/24 → SiteA (DHCP Failover + Clients)
+    - 192.168.3.0/24 → SiteB (ADC + Clients)
+    - Reason: Clean segmentation, easy routing, scalable
+
+[4] DNS Architecture
+    - Primary DNS on DC-SRV01
+    - Secondary DNS on ADC-SRV01
+    - Reason: Redundancy + replication consistency
+
+[5] DHCP Architecture
+    - DHCP-SRV01 = Primary
+    - DHCP-SRV02 = Failover Partner
+    - Reason: High availability + load balance
+
+[6] Hyper-V Virtualisation
+    - All servers virtualised
+    - Reason: Cost-free, flexible, snapshot-friendly
+
+[7] No Templates Used
+    - Entire architecture designed manually
+    - Diagram created from scratch
+    - Reason: Ensures originality and deep understanding
