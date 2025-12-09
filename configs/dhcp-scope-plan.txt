@@ -1,0 +1,56 @@
+===============================================================
+DHCP SCOPE PLAN – Enterprise AD Multi‑Site Architecture
+Domain: mylab.test
+===============================================================
+
+[1] LAN01 – Building A (192.168.1.0/24)
+    Scope Name: LAN01-Scope
+    Subnet: 192.168.1.0
+    Mask: 255.255.255.0
+    Start IP: 192.168.1.50
+    End IP: 192.168.1.200
+    Exclusions:
+        192.168.1.1      (Gateway - pfSense)
+        192.168.1.210    (DC-SRV01)
+        192.168.1.215    (DHCP-SRV01)
+        192.168.1.220    (DHCP-SRV02)
+    DHCP Options:
+        003 Router: 192.168.1.1
+        006 DNS: 192.168.1.210, 192.168.3.210
+        015 DNS Suffix: mylab.test
+
+[2] LAN02 – Building A (192.168.2.0/24)
+    Scope Name: LAN02-Scope
+    Subnet: 192.168.2.0
+    Mask: 255.255.255.0
+    Start IP: 192.168.2.50
+    End IP: 192.168.2.200
+    Exclusions:
+        192.168.2.1      (Gateway - pfSense)
+    DHCP Options:
+        003 Router: 192.168.2.1
+        006 DNS: 192.168.1.210, 192.168.3.210
+        015 DNS Suffix: mylab.test
+
+[3] LAN03 – Building B (192.168.3.0/24)
+    Scope Name: LAN03-Scope
+    Subnet: 192.168.3.0
+    Mask: 255.255.255.0
+    Start IP: 192.168.3.50
+    End IP: 192.168.3.200
+    Exclusions:
+        192.168.3.1      (Gateway - pfSense)
+        192.168.3.210    (ADC-SRV01)
+    DHCP Options:
+        003 Router: 192.168.3.1
+        006 DNS: 192.168.1.210, 192.168.3.210
+        015 DNS Suffix: mylab.test
+
+[4] DHCP Failover Plan
+    Mode: Load Balance (50/50)
+    Primary: DHCP-SRV01 (192.168.1.215)
+    Partner: DHCP-SRV02 (192.168.1.220)
+    Shared Scopes:
+        LAN01-Scope
+        LAN02-Scope
+        LAN03-Scope
