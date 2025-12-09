@@ -1,0 +1,41 @@
+===============================================================
+TROUBLESHOOTING NOTES – Enterprise AD Multi‑Site Architecture
+Domain: mylab.test
+===============================================================
+
+[1] Domain Join Issues
+    - Check DNS server IP on client (must point to DC)
+    - Flush DNS: ipconfig /flushdns
+    - Reset secure channel: Test-ComputerSecureChannel -Repair
+
+[2] DNS Problems
+    - Ensure DC-SRV01 and ADC-SRV01 both have DNS role
+    - Restart DNS service if zone not replicating
+    - Check zone replication scope: Forest
+
+[3] Replication Errors
+    - Run: repadmin /replsummary
+    - Check AD Sites & Services subnet mapping
+    - Ensure both DCs can resolve each other by FQDN
+
+[4] DHCP Issues
+    - Verify scopes are active
+    - Ensure failover relationship is healthy
+    - Check if DHCP service is authorized in AD
+
+[5] pfSense / Routing
+    - Ensure LAN gateways are correct:
+        192.168.1.1
+        192.168.2.1
+        192.168.3.1
+    - Check firewall rules if ping fails
+
+[6] GPO Not Applying
+    - Run: gpupdate /force
+    - Check SYSVOL replication
+    - Validate client time sync with domain
+
+[7] ADC Promotion Fails
+    - Ensure server is domain-joined
+    - DNS must point to DC-SRV01
+    - Check DSRM password complexity
