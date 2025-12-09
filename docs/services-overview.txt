@@ -1,0 +1,26 @@
+# Services Overview – Enterprise AD Multi-Site Lab
+
+## Active Directory Domain Services
+- Single forest, single domain
+- Multi-site replication
+- SYSVOL + NTDS replication validated
+
+## DNS
+- Primary DNS: DC-SRV01
+- Secondary DNS: ADC-SRV01
+- Zone: mylab.test (Forest replication)
+
+## DHCP
+- Primary: DHCP-SRV01
+- Failover Partner: DHCP-SRV02
+- Scopes for all three subnets
+
+## Routing & NAT
+- pfSense handles inter-subnet routing
+- WAN → 192.168.0.50
+- LAN gateways for all sites
+
+## Clients
+- Windows workstations and desktops
+- Domain-joined
+- DHCP-enabled
