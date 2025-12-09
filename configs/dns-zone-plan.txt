@@ -1,0 +1,56 @@
+===============================================================
+DNS ZONE PLAN – Enterprise AD Multi‑Site Architecture
+Domain: mylab.test
+===============================================================
+
+[1] Primary DNS Server
+    DC-SRV01
+    IP: 192.168.1.210
+    Role: Primary DNS
+    Zone Type: AD-Integrated
+    Replication Scope: Forest
+
+[2] Secondary DNS Server
+    ADC-SRV01
+    IP: 192.168.3.210
+    Role: Secondary DNS
+    Zone Type: AD-Integrated
+    Replication Scope: Forest
+
+[3] Forward Lookup Zone
+    Zone Name: mylab.test
+    Type: AD-Integrated
+    Dynamic Updates: Secure Only
+    Replication: Forest-wide
+
+[4] Reverse Lookup Zones (Optional but recommended)
+    1. 1.168.192.in-addr.arpa
+    2. 2.168.192.in-addr.arpa
+    3. 3.168.192.in-addr.arpa
+
+[5] DNS Records (Expected)
+    A Records:
+        DC-SRV01 → 192.168.1.210
+        ADC-SRV01 → 192.168.3.210
+        DHCP-SRV01 → 192.168.1.215
+        DHCP-SRV02 → 192.168.1.220
+
+    SRV Records:
+        _ldap._tcp.mylab.test
+        _kerberos._tcp.mylab.test
+        _gc._tcp.mylab.test
+
+    CNAME Records:
+        www → (optional)
+        fileserver → (optional)
+
+[6] DNS Forwarders
+    Recommended:
+        1.1.1.1
+        8.8.8.8
+
+[7] Validation Checklist
+    - nslookup mylab.test resolves correctly
+    - DC-SRV01 ↔ ADC-SRV01 DNS replication healthy
+    - Clients receive correct DNS via DHCP Option 006
+    - No stale or duplicate A records
