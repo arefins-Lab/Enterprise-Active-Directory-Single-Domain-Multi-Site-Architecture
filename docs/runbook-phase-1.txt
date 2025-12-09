@@ -1,0 +1,27 @@
+# Runbook – Phase 1: Core AD Deployment
+Domain: mylab.test
+
+## Step 1: Prepare Hyper-V Environment
+- Create virtual switches for LAN01, LAN02, LAN03
+- Deploy Windows Server VMs
+- Assign static IPs to servers
+
+## Step 2: Install AD DS on DC-SRV01
+- Install AD DS role
+- Promote to Domain Controller
+- Create forest: mylab.test
+
+## Step 3: Configure DNS
+- Verify DNS installation
+- Create forward lookup zone
+- Test nslookup from clients
+
+## Step 4: Configure DHCP (Primary)
+- Create scopes for LAN01, LAN02, LAN03
+- Configure DHCP options (003, 006, 015)
+- Authorize DHCP in AD
+
+## Step 5: Validate
+- Domain join test
+- DNS resolution test
+- DHCP lease test
