@@ -1,6 +1,7 @@
 # Enterprise-Active-Directory-Single-Domain-Multi-Site-Implementation-with-Hyper-V
 Project Overview:
-This project simulates an enterprise-scale Active Directory deployment across multiple sites using Hyper-V virtualisation. The objectives were:
+This project simulates an enterprise-scale Active Directory deployment across multiple sites using Hyper-V virtualisation. 
+The objectives were:
 
 Centralised identity management with a single domain
 
@@ -12,7 +13,8 @@ Future‑ready design with options for RODCs, IPAM, and hybrid cloud integration
 
 The lab was built entirely on Hyper‑V, enabling multiple servers and sites to be deployed virtually, without physical hardware.
 
-⚙️ Project Constraints & Requirements:
+
+Project Constraints & Requirements:
 Virtualisation: Hyper‑V is used to simulate multiple sites and servers
 
 Domain Design: Single forest, single domain, multiple sites
@@ -23,7 +25,8 @@ Networking: DHCP and DNS integrated with AD DS
 
 Scalability: Architecture designed to expand with additional sites or cloud integration
 
-🖥️ Architecture:
+
+Architecture:
 Site A: Primary Domain Controller (DC1), DHCP, DNS
 
 Site B: Secondary Domain Controller (DC2), replication partner
@@ -32,9 +35,8 @@ Hyper‑V Hosts: Virtualised servers simulating enterprise topology
 
 Clients: Windows PCs joined to the domain for validation
 
-(Diagram recommended: Site A ↔ Site B with DCs and Hyper‑V hosts)
 
-🔧 Configuration Steps:
+Configuration Steps:
 Active Directory Installation
 
 powershell:
@@ -59,7 +61,7 @@ powershell:
 repadmin /showrepl
 Get-ADReplicationSite
 
-🔍 Validation:
+Validation:
 Domain Join: Clients successfully joined the corporate network. local
 
 Replication Check: Verified with repadmin /showrepl
@@ -68,7 +70,7 @@ DNS Resolution: Tested with nslookup
 
 DHCP Leases: Confirmed with Get-DhcpServerv4Lease
 
-📜 PowerShell Command Library:
+PowerShell Command Library:
 powershell:
 # Install Active Directory Domain Services
 Install-WindowsFeature AD-Domain-Services
@@ -97,7 +99,7 @@ New-ADReplicationSubnet -Name "192.168.20.0/24" -Site "SiteB"
 repadmin /showrepl
 Get-ADReplicationSite
 
-🚀 Future Enhancements:
+Future Enhancements:
 Read‑Only Domain Controllers (RODCs) for branch offices
 
 IP Address Management (IPAM) integration
