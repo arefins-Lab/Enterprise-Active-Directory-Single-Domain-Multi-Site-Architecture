@@ -1,4 +1,4 @@
-# Enterprise-Active-Directory-Single-Domain-Multi-Site-Implementation-with-Hyper-V
+Enterprise Active Directory – Single Domain Multi‑Site Architecture
 Project Overview:
 This project simulates an enterprise-scale Active Directory deployment across multiple sites using Hyper-V virtualisation. 
 The objectives were:
